@@ -16,7 +16,7 @@ const customerSchema = new mongoose.Schema(
     },
     userType:{
       type: String,
-      enum: ['student', 'teacher'],
+      enum: ['student', 'teacher','admin'],
       default: 'student'
     },
    

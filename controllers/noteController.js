@@ -185,4 +185,63 @@ const getNotes= async (req, res) => {
   }
 };
 
-module.exports = { addNote, uploadBookImage, deleteNote, editNote, getNotes };
+const getAllNotes = async (req, res) => {
+  try {
+    const { adminId } = req.params;
+
+    // Validate adminId
+    if (!mongoose.Types.ObjectId.isValid(adminId)) {
+      return res.status(400).json({
+        success: false,
+        message: "Invalid adminId",
+      });
+    }
+
+    // Find the admin user
+    const adminUser = await Customer.findById(adminId);
+    if (!adminUser) {
+      return res.status(404).json({
+        success: false,
+        message: "Admin user not found",
+      });
+    }
+
+    // Check if userType is admin
+    if (adminUser.userType !== "admin") {
+      return res.status(403).json({
+        success: false,
+        message: "Access denied. Only admins can view all notes.",
+      });
+    }
+
+    // Fetch all notes
+    const notes = await Note.find();
+    if (notes.length === 0) {
+      return res.status(404).json({
+        success: false,
+        message: "No notes found",
+      });
+    }
+
+    res.status(200).json({
+      success: true,
+      message: "All notes fetched successfully by admin",
+      notes,
+    });
+  } catch (error) {
+    console.error("Error fetching all notes:", error);
+    res.status(500).json({
+      success: false,
+      message: "Error fetching notes",
+      error: error.message,
+    });
+  }
+};
+
+module.exports = { addNote, 
+                    uploadBookImage, 
+                    deleteNote, 
+                    editNote, 
+                    getNotes, 
+                    getAllNotes 
+                  };

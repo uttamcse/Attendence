@@ -4,6 +4,7 @@ const { addNote,
         deleteNote,
         editNote,
         getNotes,
+        getAllNotes,
         uploadBookImage } = require("../controllers/noteController");
 
 const routes = [
@@ -26,6 +27,12 @@ const routes = [
     method: HttpMethods.GET,
     path: "/students/:studentId/notes",
     handlers: [getNotes],
+  },
+
+  {
+    method: HttpMethods.GET,
+    path: "/admin/:adminId/notes",
+    handlers: [getAllNotes],
   },
 
 ];
