@@ -14,6 +14,9 @@ app.use(bodyParser.json());
 app.use(express.static('public'));
 
 // Routes
+app.use('/', require('./routes/indexRoutes'));
+app.use('/', require('./routes/logInRoutes'));
+// app.use('/', require('./routes/customerDetailsRoutes'));
 
 
 // HTTP server
